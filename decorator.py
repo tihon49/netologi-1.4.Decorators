@@ -1,25 +1,29 @@
 import datetime
 
 
-def my_decorator(old_function):
-    output_file = 'log.txt'
-    path = 'output_dir/' + output_file
-    
-    def new_foonction(*args, **kwargs):
-        with open(path, 'a', encoding='utf-8') as file:
-            file.write(f'{datetime.datetime.now()}\n')
-            print(datetime.datetime.now())
+param_for_decorator = 'output_dir'
 
-            file.write(f'Имя функции: {old_function.__name__}\n')
-            print(f'Имя функции: {old_function.__name__}')
+def param_decor(param):
+    def my_decorator(old_function):
+        output_file = 'log.txt'
+        path = param + '/' + output_file
+        
+        def new_foonction(*args, **kwargs):
+            with open(path, 'a', encoding='utf-8') as file:
+                file.write(f'{datetime.datetime.now()}\n')
+                print(datetime.datetime.now())
 
-            file.write(f'Аргументы: {args}\n')
-            print(f'Аргументы: {args}')
+                file.write(f'Имя функции: {old_function.__name__}\n')
+                print(f'Имя функции: {old_function.__name__}')
 
-            file.write(f'Результат: {old_function(*args, **kwargs)}\n\n')
+                file.write(f'Аргументы: {args}\n')
+                print(f'Аргументы: {args}')
 
-        return old_function(*args, **kwargs)
-    return new_foonction
+                file.write(f'Результат: {old_function(*args, **kwargs)}\n\n')
+
+            return old_function(*args, **kwargs)
+        return new_foonction
+    return my_decorator
 
 
 #############################################################################################
@@ -55,7 +59,7 @@ directories = {
 
 
 # функция p
-@my_decorator
+@param_decor(param_for_decorator)
 def people():
     out = input('Введите номер документа: ')
 
@@ -74,7 +78,7 @@ def people():
 
 
 # функция l
-@my_decorator
+@param_decor(param_for_decorator)
 def lst():
     for items in documents:
       try:
@@ -85,7 +89,7 @@ def lst():
 
 
 # функция s
-@my_decorator
+@param_decor(param_for_decorator)
 def shelf():
     out = input('Введите номер документа чтобы узнать на какой он полке: ')
 
@@ -98,7 +102,7 @@ def shelf():
 
 
 # функция a
-@my_decorator
+@param_decor(param_for_decorator)
 def add():
     doc_type = input('Введите тип документа: ')
     doc_number = input('Введите номер документа: ')
@@ -122,7 +126,7 @@ def add():
 
 
 # функция d
-@my_decorator
+@param_decor(param_for_decorator)
 def delete():
     doc_number = input('Введиет номер документа, который следует удалить: ')
 
@@ -145,7 +149,7 @@ def delete():
 
 
 # функция m
-@my_decorator
+@param_decor(param_for_decorator)
 def move():
     doc_number = input('Введите номер документа который следует перенести на другую полку: ')
     directories_number = input('Введите номер полки на которую следует перенести выбранный документ: ')
@@ -165,7 +169,7 @@ def move():
 
 
 # функция as
-@my_decorator
+@param_decor(param_for_decorator)
 def add_shelf():
     new_shelf = input('Введите номер новой полки: ')
 
@@ -179,7 +183,7 @@ def add_shelf():
 
 
 # функция cn
-@my_decorator
+@param_decor(param_for_decorator)
 def check_name():
     out = input ('Введите номер документа: ')
 
